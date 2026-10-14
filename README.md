@@ -16,6 +16,9 @@ GNN-based trajectory predictors use many different graph layers, and there is li
 
 ## Framework
 
+![Architecture of the spatio-temporal GNN trajectory predictor](images/architecture.jpg)
+*Figure 1: Overall architecture. Numerical agent features and a ResNet-18 map embedding form the initial node representation, which paired spatial (GCL<sub>s</sub>) and temporal (GCL<sub>t</sub>) graph convolution layers update over h iterations, with optional FC projections. An MLP head then outputs the predicted trajectory.*
+
 - **Graph construction**
   - *Spatial edges* connect agents in the same frame that are within 30 m of each other.
   - *Temporal edges* connect consecutive observations of the same agent.
