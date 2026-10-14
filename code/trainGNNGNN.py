@@ -74,7 +74,8 @@ def load(path):
 
 image =None;
 def slice(nodes,max_abs_nodes,path,nodes_beg,nodes_end,flag,scale):
-    if not image:
+    global image
+    if image is None:
         image = cv.imread(flag.data_path+flag.senario_num+'_background.png')
     img_half_act_width=(flag.img_width*flag.resolution)//2
     sub_images=np.zeros((nodes_end-nodes_beg,3,flag.img_width,flag.img_width))

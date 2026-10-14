@@ -35,7 +35,7 @@ def init_framesInfo(tracks):
         if ind!=row.frame:
             ind=row.frame
             framesInfo[int(row.frame),0]=i;
-    #fill gabs in framesInfo
+    #fill gaps in framesInfo
     wrongInd=np.where(framesInfo[:,0]==0)
     for wInd in wrongInd[0]:
         if(wInd!=0):
