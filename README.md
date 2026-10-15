@@ -106,80 +106,64 @@ To run the code,
     ```
 
 4. to train models
-| Spatial GCL | Temporal GCL | train command |
-|---|---|---| 
-|GCN|GCN| python3 trainGNN.py --spatial_type gcn --temporal_type gcn |
-|---|---|---| 
-|GCN |SAGE| python3 trainGNN.py --spatial_type gcn --temporal_type sage |
-|SAGE|GCN | python3 trainGNN.py --spatial_type sage --temporal_type gcn |
-|SAGE|SAGE| python3 trainGNN.py --spatial_type sage --temporal_type sage |
-|---|---|---| 
-|GCN    |HoGraph| python3 trainGNN.py --spatial_type gcn --temporal_type graph |
-|HoGraph|GCN    | python3 trainGNN.py --spatial_type graph --temporal_type gcn |
-|HoGraph|HoGraph| python3 trainGNN.py --spatial_type graph --temporal_type graph |
-|---|---|---| 
-|GCN |AGNN| python3 trainGNN.py --spatial_type gcn --temporal_type agnn |
-|AGNN|GCN | python3 trainGNN.py --spatial_type agnn --temporal_type gcn |
-|AGNN|AGNN| python3 trainGNN.py --spatial_type agnn --temporal_type agnn |
-|---|---|---| 
-|GCN|FA | python3 trainGNN.py --spatial_type gcn --temporal_type fa |
-|FA |GCN| python3 trainGNN.py --spatial_type fa --temporal_type gcn |
-|FA |FA | python3 trainGNN.py --spatial_type fa --temporal_type fa |
-|---|---|---| 
-|GCN|GAT| python3 trainGNN.py --spatial_type gcn --temporal_type gat |
-|GAT|GCN| python3 trainGNN.py --spatial_type gat --temporal_type gcn |
-|GAT|GAT| python3 trainGNN.py --spatial_type gat --temporal_type gat |
-|---|---|---| 
-|GCN   |LEConv| python3 trainGNN.py --spatial_type gcn --temporal_type le  |
-|LEConv|GCN   | python3 trainGNN.py --spatial_type le  --temporal_type gcn |
-|LEConv|LEConv| python3 trainGNN.py --spatial_type le  --temporal_type le  |
-|---|---|---| 
-|GCN|EGC| python3 trainGNN.py --spatial_type gcn --temporal_type eg  --init_divisor 10 |
-|EGC|GCN| python3 trainGNN.py --spatial_type eg  --temporal_type gcn --init_divisor 10 |
-|EGC|EGC| python3 trainGNN.py --spatial_type eg  --temporal_type eg  --init_divisor 10 |
-|---|---|---| 
-|GCN        |Transformer| python3 trainGNN.py --spatial_type gcn --temporal_type transformer |
-|Transformer|GCN        | python3 trainGNN.py --spatial_type transformer --temporal_type gcn |
-|Transformer|Transformer| python3 trainGNN.py --spatial_type transformer --temporal_type transformer |
-|---|---|---| 
-|GCN     |SuperGAT| python3 trainGNN.py --spatial_type gcn --temporal_type supergat |
-|SuperGAT|GCN     | python3 trainGNN.py --spatial_type supergat --temporal_type gcn |
-|SuperGAT|SuperGAT| python3 trainGNN.py --spatial_type supergat --temporal_type supergat |
-|---|---|---| 
-|GCN|SGC| python3 trainGNN.py --spatial_type gcn --temporal_type sg |
-|SGC|GCN| python3 trainGNN.py --spatial_type sg --temporal_type gcn |
-|GCN|SGC| python3 trainGNN.py --spatial_type sg --temporal_type sg |
-|---|---|---| 
-|GCN|S<sup>2</sup>GC| python3 trainGNN.py --spatial_type gcn --temporal_type ssg |
-|S<sup>2</sup>GC|GCN| python3 trainGNN.py --spatial_type ssg --temporal_type gcn |
-|S<sup>2</sup>GC|S<sup>2</sup>GC| python3 trainGNN.py --spatial_type ssg --temporal_type ssg |
 
-GCN (base) MixHop 1.07 1.87 2.02 4.16
-MixHop GCN (base) 0.97 1.68 1.83 3.67
-MixHop MixHop 1.11 1.96 2.14 4.30
-GCN (base) TAGCN 0.83 1.50 1.60 3.45
-TAGCN GCN (base) 0.85 1.43 1.53 3.15
-TAGCN TAGCN 0.66 1.19 1.25 2.80
-GCN (base) MF 0.84 1.48 1.58 3.35
-MF GCN (base) 0.67 1.15 1.25 2.54
-MF MF 0.81 1.38 1.50 3.03
-GCN (base) GRU 1.03 1.79 1.92 3.95
-GRU GCN (base) 0.81 1.40 1.50 3.15
-GRU GRU 0.91 1.67 1.81 3.84
-GCN (base) ResGRU 0.97 1.83 1.99 4.22
-ResGRU GCN (base) 0.73 1.24 1.32 2.74
-ResGRU ResGRU 0.75 1.31 1.40 2.95
-GCN (base) ARMA 0.85 1.58 1.71 3.68
-ARMA GCN (base) 0.82 1.41 1.51 3.14
-ARMA ARMA 0.67 1.19 1.28 2.74
-GCN (base) Chebyshev 0.96 1.66 1.79 3.67
-Chebyshev GCN (base) 0.72 1.20 1.30 2.63
-Chebyshev Chebyshev 0.65 1.10 1.19 2.45
-
-|---|---|---| 
-|GCN|GCN| python3 trainGNN.py --spatial_type gcn --temporal_type gcn |
-|GCN|GCN| python3 trainGNN.py --spatial_type gcn --temporal_type gcn |
-|GCN|GCN| python3 trainGNN.py --spatial_type gcn --temporal_type gcn |
+| Category | Spatial GCL | Temporal GCL | Train command |
+|---|---|---|---|
+| Baseline | GCN | GCN | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type gcn` |
+| Traditional | GCN | SAGE | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type sage` |
+| Traditional | SAGE | GCN | `python3 trainGNNGNN.py --spatial_type sage --temporal_type gcn` |
+| Traditional | SAGE | SAGE | `python3 trainGNNGNN.py --spatial_type sage --temporal_type sage` |
+| Traditional | GCN | HoGraph | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type graph` |
+| Traditional | HoGraph | GCN | `python3 trainGNNGNN.py --spatial_type graph --temporal_type gcn` |
+| Traditional | HoGraph | HoGraph | `python3 trainGNNGNN.py --spatial_type graph --temporal_type graph` |
+| Single-head attention | GCN | AGNN | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type agnn` |
+| Single-head attention | AGNN | GCN | `python3 trainGNNGNN.py --spatial_type agnn --temporal_type gcn` |
+| Single-head attention | AGNN | AGNN | `python3 trainGNNGNN.py --spatial_type agnn --temporal_type agnn` |
+| Single-head attention | GCN | FA | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type fa` |
+| Single-head attention | FA | GCN | `python3 trainGNNGNN.py --spatial_type fa --temporal_type gcn` |
+| Single-head attention | FA | FA | `python3 trainGNNGNN.py --spatial_type fa --temporal_type fa` |
+| Single-head attention | GCN | GAT | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type gat` |
+| Single-head attention | GAT | GCN | `python3 trainGNNGNN.py --spatial_type gat --temporal_type gcn` |
+| Single-head attention | GAT | GAT | `python3 trainGNNGNN.py --spatial_type gat --temporal_type gat` |
+| Single-head attention | GCN | LEConv | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type le` |
+| Single-head attention | LEConv | GCN | `python3 trainGNNGNN.py --spatial_type le --temporal_type gcn` |
+| Single-head attention | LEConv | LEConv | `python3 trainGNNGNN.py --spatial_type le --temporal_type le` |
+| Multi-head attention | GCN | EGC | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type eg --init_divisor 10` |
+| Multi-head attention | EGC | GCN | `python3 trainGNNGNN.py --spatial_type eg --temporal_type gcn --init_divisor 10` |
+| Multi-head attention | EGC | EGC | `python3 trainGNNGNN.py --spatial_type eg --temporal_type eg --init_divisor 10` |
+| Multi-head attention | GCN | Transformer | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type transformer` |
+| Multi-head attention | Transformer | GCN | `python3 trainGNNGNN.py --spatial_type transformer --temporal_type gcn` |
+| Multi-head attention | Transformer | Transformer | `python3 trainGNNGNN.py --spatial_type transformer --temporal_type transformer` |
+| Multi-head attention | GCN | SuperGAT | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type supergat` |
+| Multi-head attention | SuperGAT | GCN | `python3 trainGNNGNN.py --spatial_type supergat --temporal_type gcn` |
+| Multi-head attention | SuperGAT | SuperGAT | `python3 trainGNNGNN.py --spatial_type supergat --temporal_type supergat` |
+| Topology-based | GCN | SGC | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type sg` |
+| Topology-based | SGC | GCN | `python3 trainGNNGNN.py --spatial_type sg --temporal_type gcn` |
+| Topology-based | SGC | SGC | `python3 trainGNNGNN.py --spatial_type sg --temporal_type sg` |
+| Topology-based | GCN | S<sup>2</sup>GC | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type ssg` |
+| Topology-based | S<sup>2</sup>GC | GCN | `python3 trainGNNGNN.py --spatial_type ssg --temporal_type gcn` |
+| Topology-based | S<sup>2</sup>GC | S<sup>2</sup>GC | `python3 trainGNNGNN.py --spatial_type ssg --temporal_type ssg` |
+| Topology-based | GCN | MixHop | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type mix` |
+| Topology-based | MixHop | GCN | `python3 trainGNNGNN.py --spatial_type mix --temporal_type gcn` |
+| Topology-based | MixHop | MixHop | `python3 trainGNNGNN.py --spatial_type mix --temporal_type mix` |
+| Topology-based | GCN | TAGCN | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type tag` |
+| Topology-based | TAGCN | GCN | `python3 trainGNNGNN.py --spatial_type tag --temporal_type gcn` |
+| Topology-based | TAGCN | TAGCN | `python3 trainGNNGNN.py --spatial_type tag --temporal_type tag` |
+| Topology-based | GCN | MF | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type mf` |
+| Topology-based | MF | GCN | `python3 trainGNNGNN.py --spatial_type mf --temporal_type gcn` |
+| Topology-based | MF | MF | `python3 trainGNNGNN.py --spatial_type mf --temporal_type mf` |
+| Recurrent | GCN | GRU | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type gru` |
+| Recurrent | GRU | GCN | `python3 trainGNNGNN.py --spatial_type gru --temporal_type gcn` |
+| Recurrent | GRU | GRU | `python3 trainGNNGNN.py --spatial_type gru --temporal_type gru` |
+| Recurrent | GCN | ResGRU | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type resgru` |
+| Recurrent | ResGRU | GCN | `python3 trainGNNGNN.py --spatial_type resgru --temporal_type gcn` |
+| Recurrent | ResGRU | ResGRU | `python3 trainGNNGNN.py --spatial_type resgru --temporal_type resgru` |
+| Specialized filters | GCN | ARMA | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type arma` |
+| Specialized filters | ARMA | GCN | `python3 trainGNNGNN.py --spatial_type arma --temporal_type gcn` |
+| Specialized filters | ARMA | ARMA | `python3 trainGNNGNN.py --spatial_type arma --temporal_type arma` |
+| Specialized filters | GCN | Chebyshev | `python3 trainGNNGNN.py --spatial_type gcn --temporal_type cheb` |
+| Specialized filters | Chebyshev | GCN | `python3 trainGNNGNN.py --spatial_type cheb --temporal_type gcn` |
+| Specialized filters | Chebyshev | Chebyshev | `python3 trainGNNGNN.py --spatial_type cheb --temporal_type cheb` |
 
 5. to evaluate models
 | Spatial GCL | Temporal GCL | evaluate command 
