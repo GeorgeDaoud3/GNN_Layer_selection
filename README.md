@@ -99,7 +99,7 @@ To run the code,
 2. run the container and mount the data path
     ```bash
     docker run -it --gpus=all -v <data_folder_path>:/workspace/Code  -v <code_folder_path>:/workspace/Data  -v <models_folder_path>:/workspace/models -p 8888:8888 traj bash
-    cd workspace/Code/
+    cd /workspace/Code/
     ```
 3. Copy RounD files &lt;data_folder_path&gt; and run the preprocess script
     ```bash
