@@ -110,8 +110,10 @@ To run the code,
 |---|---|---| 
 |GCN|GCN| python3 trainGNN.py --spatial_type gcn --temporal_type gcn |
 |---|---|---| 
-|GCN |SAGE| python3 trainGNN.py --spatial_type gcn --temporal_type sage |
-|SAGE|GCN | python3 trainGNN.py --spatial_type sage --temporal_type gcn |
+|GCN |SAGE| ```bash 
+python3 trainGNN.py --spatial_type gcn --temporal_type sage 
+```|
+|SAGE|GCN | ```bash python3 trainGNN.py --spatial_type sage --temporal_type gcn ``` |
 |SAGE|SAGE| python3 trainGNN.py --spatial_type sage --temporal_type sage |
 |---|---|---| 
 |GCN    |HoGraph| python3 trainGNN.py --spatial_type gcn --temporal_type graph |
