@@ -24,7 +24,7 @@ parser = argparse.ArgumentParser(description='Train EBM model')
 
 parser.add_argument('--deviceStr', default='cuda:0', type=str, help='Specify the pytorch device')
 parser.add_argument('--model_name', default='', type=str, help='a partially trained model for continue learning')
-parser.add_argument('--model_path', default='', type=str, help='path for saving models')
+parser.add_argument('--model_path', default='../models', type=str, help='path for saving models')
 parser.add_argument('--spatial_type', default='gcn', type=str , help='whether a GMM model or not (priority: 1), the highest')
 parser.add_argument('--temporal_type', default='gcn', type=str , help='whether a GMM model or not (priority: 1), the highest')
 
@@ -36,7 +36,7 @@ parser.add_argument('--components', default=10, type=int,help='GMM components')
 
 # training
 parser.add_argument('--senario_num', default='03', type=str, help='scene index')
-parser.add_argument('--data_path', default='../Data/rounD/data/', type=str, help='path to the rounD data')
+parser.add_argument('--data_path', default='../Data/', type=str, help='path to the rounD data')
 parser.add_argument('--h_sec', default=1, type=int, help='History in seconds')
 parser.add_argument('--f_sec', default=5, type=int, help='Horizons in seconds')
 parser.add_argument('--img_width', default=128, type=int, help='The map segment wifth')
@@ -95,8 +95,8 @@ def slice(nodes,max_abs_nodes,path,nodes_beg,nodes_end,flag,scale):
 def saveModel(model, model_path):
     torch.save(model.state_dict(), model_path)
 
-def loadModel(model, model_path):
-    model.load_state_dict(torch.load(model_path))
+def loadModel(model, model_path, flag):
+    model.load_state_dict(torch.load(model_path,map_location=flag.deviceStr))
     model.eval()
     return model;
     
@@ -137,232 +137,232 @@ class DTAG_NL(torch.nn.Module):
 
         for _ in range(self.num_layers):
             if flag.spatial_type=='gcn':
-                print('gcn')
+                #print('gcn')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): GCNConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.spatial_type=='gat':
-                print('gat')
+                #print('gat')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): GATConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.spatial_type=='supergat':
-                print('supergat')
+                #print('supergat')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): SuperGATConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.spatial_type=='supergat2':
-                print('supergat2')
+                #print('supergat2')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): SuperGATConv(hidden_channels*2+flag.input_dim,hidden_channels//4,heads=4)
                 }, aggr='mean')
             elif flag.spatial_type=='sage':
-                print('sage')
+                #print('sage')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): SAGEConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.spatial_type=='transformer':
-                print('transformer')
+                #print('transformer')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): TransformerConv(hidden_channels*2+flag.input_dim,hidden_channels//4,4)
                 }, aggr='mean')
             elif flag.spatial_type=='tag':
-                print('tag')
+                #print('tag')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): TAGConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.spatial_type=='arma':
-                print('arma')
+                #print('arma')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): ARMAConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.spatial_type=='sg':
-                print('sg')
+                #print('sg')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): SGConv(hidden_channels*2+flag.input_dim,hidden_channels,K=3)
                 }, aggr='mean')
             elif flag.spatial_type=='graph':
-                print('graph')
+                #print('graph')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): GraphConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.spatial_type=='cheb':
-                print('cheb')
+                #print('cheb')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): ChebConv(hidden_channels*2+flag.input_dim,hidden_channels,K=3)
                 }, aggr='mean')
             elif flag.spatial_type=='agnn':
-                print('agnn')
+                #print('agnn')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): AGNNConv()
                 }, aggr='mean')
                 self.lins1.append(Linear(hidden_channels*2+flag.input_dim, hidden_channels))
             elif flag.spatial_type=='gru':
-                print('gru')
+                #print('gru')
                 self.lins1.append(Linear(hidden_channels*2+flag.input_dim, hidden_channels))
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): GatedGraphConv(hidden_channels, 1,'mean')
                 }, aggr='mean')
             elif flag.spatial_type=='gru2':
-                print('gru2')
+                #print('gru2')
                 self.lins1.append(Linear(hidden_channels*2+flag.input_dim, hidden_channels))
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): GatedGraphConv(hidden_channels*2+flag.input_dim, 1,'mean')
                 }, aggr='mean')
             elif flag.spatial_type=='resgru':
-                print('resgru')
+                #print('resgru')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): ResGatedGraphConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.spatial_type=='ssg':
-                print('ssg')
+                #print('ssg')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): SSGConv(hidden_channels*2+flag.input_dim,hidden_channels,alpha=0.5,K=3)
                 }, aggr='mean')
             elif flag.spatial_type=='mf':
-                print('mf')
+                #print('mf')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): MFConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.spatial_type=='mix':
-                print('mix')
+                #print('mix')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): MixHopConv(hidden_channels*2+flag.input_dim,hidden_channels//3)
                 }, aggr='mean')
             elif flag.spatial_type=='le':
-                print('le')
+                #print('le')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): LEConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.spatial_type=='fa':
-                print('fa')
+                #print('fa')
                 self.lins1.append(Linear(hidden_channels*2+flag.input_dim, hidden_channels))
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): FAConv(hidden_channels*2+flag.input_dim)
                 }, aggr='mean')
             elif flag.spatial_type=='eg':
-                print('eg')
+                #print('eg')
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): EGConv(hidden_channels*2+flag.input_dim,hidden_channels,['mean'],4)
                 }, aggr='mean')
             elif flag.spatial_type=='dna':
-                print('dna')
+                #print('dna')
                 self.lins1.append(Linear(hidden_channels*2+flag.input_dim, hidden_channels))
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): DNAConv(hidden_channels*2+flag.input_dim,4)
                 }, aggr='mean')
                 
             if flag.temporal_type=='gcn':
-                print('gcn')
+                #print('gcn')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): GCNConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.temporal_type=='gat':
-                print('gat')
+                #print('gat')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): GATConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.temporal_type=='supergat':
-                print('supergat')
+                #print('supergat')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): SuperGATConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.temporal_type=='supergat2':
-                print('supergat2')
+                #print('supergat2')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): SuperGATConv(hidden_channels*2+flag.input_dim,hidden_channels//4,heads=4)
                 }, aggr='mean')
             elif flag.temporal_type=='sage':
-                print('sage')
+                #print('sage')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): SAGEConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.temporal_type=='transformer':
-                print('transformer')
+                #print('transformer')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): TransformerConv(hidden_channels*2+flag.input_dim,hidden_channels//4,4)
                 }, aggr='mean')
             elif flag.temporal_type=='tag':
-                print('tag')
+                #print('tag')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): TAGConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.temporal_type=='arma':
-                print('arma')
+                #print('arma')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): ARMAConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.temporal_type=='sg':
-                print('sg')
+                #print('sg')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): SGConv(hidden_channels*2+flag.input_dim,hidden_channels,K=3)
                 }, aggr='mean')
             elif flag.temporal_type=='graph':
-                print('graph')
+                #print('graph')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): GraphConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.temporal_type=='cheb':
-                print('cheb')
+                #print('cheb')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): ChebConv(hidden_channels*2+flag.input_dim,hidden_channels,K=3)
                 }, aggr='mean')  
             elif flag.temporal_type=='agnn':
-                print('agnn')
+                #print('agnn')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): AGNNConv()
                 }, aggr='mean')
                 self.lins2.append(Linear(hidden_channels*2+flag.input_dim, hidden_channels))  
             elif flag.temporal_type=='gru':
-                print('gru')
+                #print('gru')
                 self.lins2.append(Linear(hidden_channels*2+flag.input_dim, hidden_channels))
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): GatedGraphConv(hidden_channels, 1,'mean')
                 }, aggr='mean')
             elif flag.temporal_type=='gru2':
-                print('gru2')
+                #print('gru2')
                 self.lins2.append(Linear(hidden_channels*2+flag.input_dim, hidden_channels))
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): GatedGraphConv(hidden_channels*2+flag.input_dim, 1,'mean')
                 }, aggr='mean')
             elif flag.temporal_type=='resgru':
-                print('resgru')
+                #print('resgru')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): ResGatedGraphConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.temporal_type=='ssg':
-                print('ssg')
+                #print('ssg')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): SSGConv(hidden_channels*2+flag.input_dim,hidden_channels,alpha=0.5,K=3)
                 }, aggr='mean')
             elif flag.temporal_type=='mf':
-                print('mf')
+                #print('mf')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): MFConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.temporal_type=='mix':
-                print('mix')
+                #print('mix')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): MixHopConv(hidden_channels*2+flag.input_dim,hidden_channels//3)
                 }, aggr='mean')
             elif flag.temporal_type=='le':
-                print('le')
+                #print('le')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): LEConv(hidden_channels*2+flag.input_dim,hidden_channels)
                 }, aggr='mean')
             elif flag.temporal_type=='fa':
-                print('fa')
+                #print('fa')
                 self.lins2.append(Linear(hidden_channels*2+flag.input_dim, hidden_channels))
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): FAConv(hidden_channels*2+flag.input_dim)
                 }, aggr='mean')
             elif flag.temporal_type=='eg':
-                print('eg')
+                #print('eg')
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): EGConv(hidden_channels*2+flag.input_dim,hidden_channels,['mean'],4)
                 }, aggr='mean')
             elif flag.temporal_type=='dna':
-                print('dna')
+                #print('dna')
                 self.lins2.append(Linear(hidden_channels*2+flag.input_dim, hidden_channels))
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): DNAConv(hidden_channels*2+flag.input_dim,4)
@@ -473,7 +473,6 @@ def test_one_epoch(model,nodes,max_abs_nodes,min_output,max_output,path,epoch_in
     # Here, we use enumerate(training_loader) instead of
     # iter(training_loader) so that we can track the batch
     # index and do some intra-epoch reporting
-    #print('teet')
     pbar = tqdm(testing)
     total_count=0;
     output_dims=output.shape[1]
@@ -611,7 +610,7 @@ def train(model,nodes,max_abs_nodes,min_output,max_output,path,training,validati
     model_path=flag.model_name;
     avg_vloss = 1000000
     if model_path!='':
-        model=loadModel(model,path+'/'+model_path)
+        model=loadModel(model,path+'/'+model_path,flag)
         loss,minDE =test_one_epoch(model,nodes,max_abs_nodes,min_output,max_output,path,-1,validating,output,output_mask,flag,scale,spatial_edges,temporal_edges,framesInfo)
         avg_vloss=minDE.mean()
     
@@ -646,7 +645,7 @@ def train(model,nodes,max_abs_nodes,min_output,max_output,path,training,validati
             epoch_index += 1
         divisor*=flag.update_divisor;
         EPOCHS-=flag.reduce_epoch;
-        model=loadModel(model,path+'/'+model_path)
+        model=loadModel(model,path+'/'+model_path, flag)
 
 def create_model(flag,horizon):
     model = DTAG_NL(hidden_channels=flag.hidden_channels, hidden_channels2=flag.hidden_channels2, out_channels=2*horizon,num_layers=flag.num_layers,flag=flag).to(flag.deviceStr, non_blocking=True)
