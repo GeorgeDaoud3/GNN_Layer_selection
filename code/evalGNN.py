@@ -243,7 +243,7 @@ class DTAG_NL(torch.nn.Module):
                     ('agent', 'space', 'agent'): EGConv(hidden_channels*2+14,hidden_channels,['mean'],4)
                 }, aggr='mean')
             elif flag.spatial_type=='dna':
-                print('fa')
+                print('dna')
                 self.lins1.append(Linear(hidden_channels*2+14, hidden_channels))
                 conv1 = HeteroConv({
                     ('agent', 'space', 'agent'): DNAConv(hidden_channels*2+14,4)
@@ -359,7 +359,7 @@ class DTAG_NL(torch.nn.Module):
                     ('agent', 'time', 'agent'): EGConv(hidden_channels*2+14,hidden_channels,['mean'],4)
                 }, aggr='mean')
             elif flag.temporal_type=='dna':
-                print('fa')
+                print('dna')
                 self.lins2.append(Linear(hidden_channels*2+14, hidden_channels))
                 conv2 = HeteroConv({
                     ('agent', 'time', 'agent'): DNAConv(hidden_channels*2+14,4)

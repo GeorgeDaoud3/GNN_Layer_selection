@@ -110,12 +110,8 @@ To run the code,
 |---|---|---| 
 |GCN|GCN| python3 trainGNN.py --spatial_type gcn --temporal_type gcn |
 |---|---|---| 
-|GCN |SAGE| ```bash 
-python3 trainGNN.py --spatial_type gcn --temporal_type sage 
-```|
-|SAGE|GCN | ```bash 
-python3 trainGNN.py --spatial_type sage --temporal_type gcn 
-``` |
+|GCN |SAGE| python3 trainGNN.py --spatial_type gcn --temporal_type sage |
+|SAGE|GCN | python3 trainGNN.py --spatial_type sage --temporal_type gcn |
 |SAGE|SAGE| python3 trainGNN.py --spatial_type sage --temporal_type sage |
 |---|---|---| 
 |GCN    |HoGraph| python3 trainGNN.py --spatial_type gcn --temporal_type graph |
@@ -138,7 +134,52 @@ python3 trainGNN.py --spatial_type sage --temporal_type gcn
 |LEConv|GCN   | python3 trainGNN.py --spatial_type le  --temporal_type gcn |
 |LEConv|LEConv| python3 trainGNN.py --spatial_type le  --temporal_type le  |
 |---|---|---| 
+|GCN|EGC| python3 trainGNN.py --spatial_type gcn --temporal_type eg  --init_divisor 10 |
+|EGC|GCN| python3 trainGNN.py --spatial_type eg  --temporal_type gcn --init_divisor 10 |
+|EGC|EGC| python3 trainGNN.py --spatial_type eg  --temporal_type eg  --init_divisor 10 |
+|---|---|---| 
+|GCN        |Transformer| python3 trainGNN.py --spatial_type gcn --temporal_type transformer |
+|Transformer|GCN        | python3 trainGNN.py --spatial_type transformer --temporal_type gcn |
+|Transformer|Transformer| python3 trainGNN.py --spatial_type transformer --temporal_type transformer |
+|---|---|---| 
+|GCN     |SuperGAT| python3 trainGNN.py --spatial_type gcn --temporal_type supergat |
+|SuperGAT|GCN     | python3 trainGNN.py --spatial_type supergat --temporal_type gcn |
+|SuperGAT|SuperGAT| python3 trainGNN.py --spatial_type supergat --temporal_type supergat |
+|---|---|---| 
+|GCN|SGC| python3 trainGNN.py --spatial_type gcn --temporal_type sg |
+|SGC|GCN| python3 trainGNN.py --spatial_type sg --temporal_type gcn |
+|GCN|SGC| python3 trainGNN.py --spatial_type sg --temporal_type sg |
+|---|---|---| 
+|GCN|S<sup>2</sup>GC| python3 trainGNN.py --spatial_type gcn --temporal_type ssg |
+|S<sup>2</sup>GC|GCN| python3 trainGNN.py --spatial_type ssg --temporal_type gcn |
+|S<sup>2</sup>GC|S<sup>2</sup>GC| python3 trainGNN.py --spatial_type ssg --temporal_type ssg |
 
+GCN (base) MixHop 1.07 1.87 2.02 4.16
+MixHop GCN (base) 0.97 1.68 1.83 3.67
+MixHop MixHop 1.11 1.96 2.14 4.30
+GCN (base) TAGCN 0.83 1.50 1.60 3.45
+TAGCN GCN (base) 0.85 1.43 1.53 3.15
+TAGCN TAGCN 0.66 1.19 1.25 2.80
+GCN (base) MF 0.84 1.48 1.58 3.35
+MF GCN (base) 0.67 1.15 1.25 2.54
+MF MF 0.81 1.38 1.50 3.03
+GCN (base) GRU 1.03 1.79 1.92 3.95
+GRU GCN (base) 0.81 1.40 1.50 3.15
+GRU GRU 0.91 1.67 1.81 3.84
+GCN (base) ResGRU 0.97 1.83 1.99 4.22
+ResGRU GCN (base) 0.73 1.24 1.32 2.74
+ResGRU ResGRU 0.75 1.31 1.40 2.95
+GCN (base) ARMA 0.85 1.58 1.71 3.68
+ARMA GCN (base) 0.82 1.41 1.51 3.14
+ARMA ARMA 0.67 1.19 1.28 2.74
+GCN (base) Chebyshev 0.96 1.66 1.79 3.67
+Chebyshev GCN (base) 0.72 1.20 1.30 2.63
+Chebyshev Chebyshev 0.65 1.10 1.19 2.45
+
+|---|---|---| 
+|GCN|GCN| python3 trainGNN.py --spatial_type gcn --temporal_type gcn |
+|GCN|GCN| python3 trainGNN.py --spatial_type gcn --temporal_type gcn |
+|GCN|GCN| python3 trainGNN.py --spatial_type gcn --temporal_type gcn |
 
 5. to evaluate models
 | Spatial GCL | Temporal GCL | evaluate command 
