@@ -10,7 +10,7 @@ import argparse
 parser = argparse.ArgumentParser(description='Train EBM model')
 
 parser.add_argument('--senario_num', default='03', type=str, help='scene index')
-parser.add_argument('--data_path', default='../Data/rounD/data/', type=str, help='path to the rounD data')
+parser.add_argument('--data_path', default='../Data/', type=str, help='path to the rounD data')
 parser.add_argument('--h_sec', default=1, type=int, help='History in seconds')
 parser.add_argument('--f_sec', default=5, type=int, help='Horizons in seconds')
 parser.add_argument('--distance', default=30, type=float, help='maximum distance for spatial edges')

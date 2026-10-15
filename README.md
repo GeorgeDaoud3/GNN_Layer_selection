@@ -88,6 +88,58 @@ For comparison, a CNN+LSTM baseline reports ADE 3.57 and FDE 10.29 at 5 s.
 - The model predicts a single trajectory, so comparisons with multimodal methods (minADE/minFDE) are not like-for-like.
 - Computational cost was not reported.
 
+## The code
+
+To run the code, 
+1. use the Dockerfile
+    ```bash 
+    cd code
+    docker build -t traj .
+    ```
+2. run the container and mount the data path
+    ```bash
+    docker run -it --gpus=all -v <data_folder_path>:/workspace/Code  -v <code_folder_path>:/workspace/Data -p 8888:8888 traj bash
+    ```
+3. Copy RounD files &lt;data_folder_path&gt; and run the preprocess script
+    ```bash
+    python3 preprocess.py
+    ```
+
+4. to train models
+| Spatial GCL | Temporal GCL | train command |
+|---|---|---| 
+|GCN|GCN| python3 trainGNN.py --spatial_type gcn --temporal_type gcn |
+|---|---|---| 
+|GCN |SAGE| python3 trainGNN.py --spatial_type gcn --temporal_type sage |
+|SAGE|GCN | python3 trainGNN.py --spatial_type sage --temporal_type gcn |
+|SAGE|SAGE| python3 trainGNN.py --spatial_type sage --temporal_type sage |
+|---|---|---| 
+|GCN    |HoGraph| python3 trainGNN.py --spatial_type gcn --temporal_type graph |
+|HoGraph|GCN    | python3 trainGNN.py --spatial_type graph --temporal_type gcn |
+|HoGraph|HoGraph| python3 trainGNN.py --spatial_type graph --temporal_type graph |
+|---|---|---| 
+|GCN |AGNN| python3 trainGNN.py --spatial_type gcn --temporal_type agnn |
+|AGNN|GCN | python3 trainGNN.py --spatial_type agnn --temporal_type gcn |
+|AGNN|AGNN| python3 trainGNN.py --spatial_type agnn --temporal_type agnn |
+|---|---|---| 
+|GCN|FA | python3 trainGNN.py --spatial_type gcn --temporal_type fa |
+|FA |GCN| python3 trainGNN.py --spatial_type fa --temporal_type gcn |
+|FA |FA | python3 trainGNN.py --spatial_type fa --temporal_type fa |
+|---|---|---| 
+|GCN|GAT| python3 trainGNN.py --spatial_type gcn --temporal_type gat |
+|GAT|GCN| python3 trainGNN.py --spatial_type gat --temporal_type gcn |
+|GAT|GAT| python3 trainGNN.py --spatial_type gat --temporal_type gat |
+|---|---|---| 
+|GCN   |LEConv| python3 trainGNN.py --spatial_type gcn --temporal_type le  |
+|LEConv|GCN   | python3 trainGNN.py --spatial_type le  --temporal_type gcn |
+|LEConv|LEConv| python3 trainGNN.py --spatial_type le  --temporal_type le  |
+|---|---|---| 
+
+
+5. to evaluate models
+| Spatial GCL | Temporal GCL | evaluate command 
+|---|---|---|
+
 ## Citation
 
 ```bibtex
